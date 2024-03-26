@@ -138,6 +138,7 @@ export interface EndOfCallReportPayload extends BaseVapiPayload {
   messages: ConversationMessage[];
   summary: string;
   recordingUrl?: string;
+  conversation_uuid: string;
 }
 
 export interface HangPayload extends BaseVapiPayload {
