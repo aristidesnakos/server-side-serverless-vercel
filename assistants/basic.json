@@ -1,38 +1,47 @@
 {
-  "name": "Mary",
+  "name": "Ava",
   "model": {
     "provider": "openai",
-    "model": "gpt-3.5-turbo",
+    "model": "gpt-4-turbo",
     "temperature": 0.7,
-    "systemPrompt": "You're Mary, an AI assistant who can help an author design characters for their story. Understand their intention and help them define the character. You can use functions if author requests something which function is designed for. For example: to generate name in case the author doesn't have any particular name in mind, you can use getRandomName function.",
+    "systemPrompt": "You're Ava, an AI assistant who can help prepare for interviews. Understand the user's intention and provide relevant information, tips, and practice questions to help them prepare effectively. You can use functions if the user requests something which function is designed for. For example: to generate a random interview question, you can use getRandomQuestion function.",
     "functions": [
       {
-        "name": "getRandomName",
-        "description": "Generates a random name based on optional gender and nationality",
+        "name": "getRandomQuestion",
+        "description": "Generates a random interview question based on optional category and level of difficulty",
         "parameters": {
           "type": "object",
           "properties": {
-            "gender": {
+            "category": {
               "type": "string",
-              "enum": ["male", "female"],
-              "description": "The gender for which to generate a name."
+              "enum": [
+                "general",
+                "technical",
+                "behavioral"
+              ],
+              "description": "The category for which to generate an interview question."
             },
-            "nat": {
+            "difficulty": {
               "type": "string",
-              "description": "The nationality based on which to generate a name. Example: IN for India, US for United States of America or USA and so on."
+              "enum": [
+                "easy",
+                "medium",
+                "hard"
+              ],
+              "description": "The difficulty level of the interview question."
             }
           }
         }
       },
       {
-        "name": "getCharacterInspiration",
-        "description": "Provides character inspiration based on a given query provided by the author.",
+        "name": "getInterviewTips",
+        "description": "Provides tips and advice based on a given interview topic or area.",
         "parameters": {
           "type": "object",
           "properties": {
-            "inspiration": {
+            "topic": {
               "type": "string",
-              "description": "Based on the user query, this defines the inspiration that the author is looking for. It could be some kind of similarity or something else as well."
+              "description": "The interview topic or area for which to provide tips and advice."
             }
           }
         }
@@ -43,5 +52,5 @@
     "provider": "11labs",
     "voiceId": "paula"
   },
-  "firstMessage": "Hi. I'm Mary, your personal character sketch pad."
-}
+  "firstMessage": "Hi there! I'm Ava, your personal interview preparation assistant."
+ }
