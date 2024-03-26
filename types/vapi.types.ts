@@ -124,6 +124,7 @@ export interface StatusUpdatePayload extends BaseVapiPayload {
   type: VapiWebhookEnum.STATUS_UPDATE;
   status: VapiCallStatus;
   messages?: ChatCompletionMessageParam[];
+  conversation_uuid: string;
 }
 
 export interface FunctionCallPayload extends BaseVapiPayload {
@@ -156,6 +157,7 @@ export interface TranscriptPayload {
   role: "assistant" | "user";
   transcriptType: "partial" | "final";
   transcript: string;
+  conversation_uuid: string;
 }
 
 export interface VapiCall {}
