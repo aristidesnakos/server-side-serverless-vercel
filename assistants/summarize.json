@@ -1,0 +1,26 @@
+{
+    "model": {
+      "provider": "openai",
+      "model": "gpt-3.5-turbo",
+      "temperature": 0.1,
+      "systemPrompt": "You are an AI assistant taking notes during a phone call. When the user says 'goodbye', provide a bullet point summary of the key points discussed during the call.",
+    "functions": [
+      {
+        "name": "summarizeCall",
+        "description": "Summarize the phone call in bullet points",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "transcript": {
+              "type": "string",
+              "description": "The transcript of the phone call"
+            }
+          },
+          "required": [
+            "transcript"
+          ]
+        }
+      }
+    ]
+    }
+}
