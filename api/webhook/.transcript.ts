@@ -10,11 +10,15 @@ export const transcriptHandler = async (payload?: TranscriptPayload): Promise<Tr
 
   try {
     // Append the new transcript chunk to the existing transcript
-    const { data, error } = await supabase
+    let data;
+    const { error } = await supabase
       .from('calls')
-      .update({ transcript: `${data[0].transcript ?? ''}${transcript}` })
+      .update({ transcript: `${data?.[0]?.transcript ?? ''}${transcript}` })
       .eq('conversation_uuid', conversation_uuid)
-      .single();
+      .single()
+      .then(response => {
+        data = response.data;
+      });
 
     if (error) {
       console.error('Error updating transcript:', error);

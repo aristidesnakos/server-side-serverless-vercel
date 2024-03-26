@@ -9,11 +9,14 @@ export const statusUpdateHandler = async (payload?: StatusUpdatePayload): Promis
   const { conversation_uuid, status } = payload;
 
   try {
-    // Insert or update the call record
-    const { data, error } = await supabase
+    let data;
+    const { error } = await supabase
       .from('calls')
       .upsert({ conversation_uuid, status })
-      .single();
+      .single()
+      .then(response => {
+        data = response.data;
+      });
 
     if (error) {
       console.error('Error updating call status:', error);

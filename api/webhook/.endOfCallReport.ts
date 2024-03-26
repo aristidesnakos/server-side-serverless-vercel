@@ -9,12 +9,15 @@ export const endOfCallReportHandler = async (payload?: EndOfCallReportPayload): 
   const { conversation_uuid, transcript } = payload;
 
   try {
-    // Update the call record with the full transcript and end time
-    const { data, error } = await supabase
+    let data;
+    const { error } = await supabase
       .from('calls')
       .update({ transcript, end_time: new Date() })
       .eq('conversation_uuid', conversation_uuid)
-      .single();
+      .single()
+      .then(response => {
+        data = response.data;
+      });
 
     if (error) {
       console.error('Error updating call record:', error);
