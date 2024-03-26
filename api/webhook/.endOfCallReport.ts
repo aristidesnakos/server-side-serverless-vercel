@@ -1,12 +1,27 @@
+import supabase from '../db';
 import { EndOfCallReportPayload } from "../../types/vapi.types";
 
-export const endOfCallReportHandler = async (
-  payload?: EndOfCallReportPayload
-): Promise<void> => {
-  /**
-   * Handle Business logic here.
-   * You can store the information like summary, typescript, recordingUrl or even the full messages list in the database.
-   */
+export const endOfCallReportHandler = async (payload?: EndOfCallReportPayload): Promise<void> => {
+  if (!payload) {
+    return;
+  }
 
-  return;
+  const { conversation_uuid, transcript } = payload;
+
+  try {
+    // Update the call record with the full transcript and end time
+    const { data, error } = await supabase
+      .from('calls')
+      .update({ transcript, end_time: new Date() })
+      .eq('conversation_uuid', conversation_uuid)
+      .single();
+
+    if (error) {
+      console.error('Error updating call record:', error);
+    } else {
+      console.log('Call record updated:', data);
+    }
+  } catch (error) {
+    console.error('Error updating call record:', error);
+  }
 };

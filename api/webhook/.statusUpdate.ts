@@ -1,18 +1,28 @@
-import {
-  StatusUpdateMessageResponse,
-  StatusUpdatePayload,
-} from "../../types/vapi.types";
+import supabase from '../db';
+import { StatusUpdateMessageResponse, StatusUpdatePayload } from "../../types/vapi.types";
 
-export const statusUpdateHandler = async (
-  payload?: StatusUpdatePayload
-): Promise<StatusUpdateMessageResponse> => {
-  /**
-   * Handle Business logic here.
-   * Sent during a call whenever the status of the call has changed.
-   * Possible statuses are: "queued","ringing","in-progress","forwarding","ended".
-   * You can have certain logic or handlers based on the call status.
-   * You can also store the information in your database. For example whenever the call gets forwarded.
-   */
+export const statusUpdateHandler = async (payload?: StatusUpdatePayload): Promise<StatusUpdateMessageResponse> => {
+  if (!payload || !payload.status) {
+    return {};
+  }
+
+  const { conversation_uuid, status } = payload;
+
+  try {
+    // Insert or update the call record
+    const { data, error } = await supabase
+      .from('calls')
+      .upsert({ conversation_uuid, status })
+      .single();
+
+    if (error) {
+      console.error('Error updating call status:', error);
+    } else {
+      console.log('Call status updated:', data);
+    }
+  } catch (error) {
+    console.error('Error updating call status:', error);
+  }
 
   return {};
 };
